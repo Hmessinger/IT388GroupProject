@@ -14,6 +14,33 @@ Execute: ./seq_naive <array size>
 #include <stdio.h>
 #include <stdlib.h>
 
+int maxWater(int arr[], int n)
+{
+    int result = 0;
+    //For every element of the array
+    for(int i=1; i<n-1; i++)
+    {
+        //Find max to the left
+        int left = arr[i];
+        for(int j=0; j<i; j++)
+        {
+            if(arr[j]>left)
+                left = arr[j];
+        }
+        //Find max to the right
+        int right = 0; 
+        for(int j=i+1; j<n; j++)
+        {
+            if(arr[j]>right)
+                right = arr[j];
+        }
+        //Update max water result
+        result += (left < right ? left : right ) - arr[i];
+    }
+    
+    return result;
+}
+
 int main(int argc, char *argv[])
 {
     int n;
@@ -34,13 +61,14 @@ int main(int argc, char *argv[])
         arr[i] = (int)((double)rand() / ((double)RAND_MAX + 1) * 16);
     }
     
-    //Working code here...
-    printf("TEST:\n");
+    
+    printf("Array:\n");
     for(int i=0; i<n; i++)
     {
         printf("[%d] ",arr[i]);
     }
-    printf("\n");
+    printf("\n---------------------------------------\n");
+    printf("Maximum trapped rainwater: %d units\n", maxWater(arr, n));
 
     free(arr);
     return 0;
