@@ -27,6 +27,7 @@ Execute: ./seq_naive <array size>
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 int maxWater(int arr[], int n)
 {
@@ -68,6 +69,7 @@ int main(int argc, char *argv[])
     n = atoi(argv[1]); // Get array size
     arr = (int *)malloc(n * sizeof(int));
     // Generate random array of n integers
+    srand(time(NULL));
     // Array "heights" will generate between 0 and 15
     for (int i = 0; i < n; i++)
     {
