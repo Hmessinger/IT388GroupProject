@@ -76,12 +76,17 @@ int main(int argc, char *argv[])
         // TODO: "Random" array is generated the name for same n every time
         arr[i] = (int)((double)rand() / ((double)RAND_MAX + 1) * 16);
     }
-
-    printf("Array:\n");
-    for (int i = 0; i < n; i++)
+    
+    if(n < 30)
     {
-        printf("[%d] ", arr[i]);
+        printf("Array:\n");
+        for(int i=0; i<n; i++)
+        {
+            printf("[%d] ",arr[i]);
+        }
     }
+    else
+        printf("Array too lagre to print\n");
     printf("\n---------------------------------------\n");
     printf("Maximum trapped rainwater: %d units\n", maxWater(arr, n));
 
