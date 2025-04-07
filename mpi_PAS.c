@@ -1,17 +1,22 @@
-/** FILE: sequencial_PAS.c
- *  Description: Here we are implenting the sequencial code of catching rain water.this version we calulcalute the highest bar on the left first and on the right. we use pointers
- * to traverse the arra. 
+/** FILE: mpi_PAS.c
+ *  Description: Here we are adding openMP to the sequential_PAS version of the trapping rainwater problem. This will parallelize the function that
+ *               calculates the amount of rainwater that can be trapped. This approach will speedup the time complexity because there will be multiple
+ *               threads working on the computations.
  *  Compile:
- *          gcc -o spas sequential_PAS.c
+ *          gcc -o ppas mpi_PAS.c
  *  Execution:
- *          ./spas <array size>     implemented later
+ *          ./ppas <array size>
  *
  * Name: Hogan Messinger, Suhail Tailor, Derek Kmieciak, Angel Hernandez
  * Course: IT 388-Spring 2025
  * Group Project
  */
 
+#include<omp.h>
+#include<mpi.h>
 #include <stdio.h>
+
+// serial part of code so far    vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 int maxWater(int arr[], int n) {
 
