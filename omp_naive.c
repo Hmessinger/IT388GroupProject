@@ -44,10 +44,11 @@ int maxWater(int arr[], int n, int nThreads)
     return result;
 }
 
+// Usage function for displaying an input error message
 void Usage(char *prog_name)
 {
     fprintf(stderr, "\nIncorrect number of arguments:\n---- USAGE: %s <array size> <nThreads> ----\n\n", prog_name);
-    exit(0);
+    exit(1);
 }
 
 int main(int argc, char *argv[])
