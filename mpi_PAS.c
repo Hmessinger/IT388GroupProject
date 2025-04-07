@@ -1,9 +1,9 @@
-/** FILE: parallel_PAS.c
+/** FILE: mpi_PAS.c
  *  Description: Here we are adding openMP to the sequential_PAS version of the trapping rainwater problem. This will parallelize the function that
  *               calculates the amount of rainwater that can be trapped. This approach will speedup the time complexity because there will be multiple
  *               threads working on the computations.
  *  Compile:
- *          gcc -o ppas parallel_PAS.c
+ *          gcc -o ppas mpi_PAS.c
  *  Execution:
  *          ./ppas <array size>
  *
