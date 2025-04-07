@@ -1,11 +1,9 @@
 /** FILE: sequential_naive.c
- *  Description: Here we are implementing the sequential version of the trapping rainwater problem. This version iterates
- *               through the array of values and it finds the highest bars on teh left and right sides. Then it will take the smaller of the two heights
- *               to find how much rainwater can be trapped in between those two bars. This approach takes a time of O(n^2).
+ *  Description: Here we are implementing the sequential version of the trapping rainwater problem. 
  *  Compile:
- *          gcc -o seq_naive sequential_naive.c
+ *          gcc -o seq_tp sequential_twoptr.c
  *  Execution:
- *          ./seq_naive <array size>
+ *          ./seq_tp <array size>
  *
  * Name: Hogan Messinger, Suhail Tailor, Derek Kmieciak, Angel Hernandez
  * Course: IT 388-Spring 2025
@@ -14,15 +12,13 @@
 
 /*
 Sequential approach to the trapping rainwater problem.
-Naive approach: O(n^2) double loop
+Two Pointer Approach: O(n)
 
 Code credit: Geeks For Geeks
     https://geeksforgeeks.org/trapping-rain-water/#
 
 This code will be modified into the parallel final code.
 
-Compile: gcc -o seq_naive sequential_naive.c
-Execute: ./seq_naive <array size>
 */
 
 #include <stdio.h>
@@ -31,6 +27,11 @@ Execute: ./seq_naive <array size>
 
 int maxWater(int arr[], int n)
 {
+
+    //TODO:
+    //  Implement sequential Two Pointer code,
+    //  parallelize at home later   
+
     int result = 0;
     // For every element of the array
     for (int i = 1; i < n - 1; i++)
