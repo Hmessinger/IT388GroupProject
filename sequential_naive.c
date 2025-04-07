@@ -60,6 +60,8 @@ int main(int argc, char *argv[])
 {
     int n;
     int *arr;
+    clock_t start, end;
+    double elapsed;
 
     if (argc != 2)
     {
@@ -69,11 +71,10 @@ int main(int argc, char *argv[])
     n = atoi(argv[1]); // Get array size
     arr = (int *)malloc(n * sizeof(int));
     // Generate random array of n integers
-    srand(time(NULL));
+    //srand(time(NULL));    Removed for testing consistency
     // Array "heights" will generate between 0 and 15
     for (int i = 0; i < n; i++)
     {
-        // TODO: "Random" array is generated the name for same n every time
         arr[i] = (int)((double)rand() / ((double)RAND_MAX + 1) * 16);
     }
     
@@ -89,6 +90,11 @@ int main(int argc, char *argv[])
         printf("Array too lagre to print\n");
     printf("\n---------------------------------------\n");
     printf("Maximum trapped rainwater: %d units\n", maxWater(arr, n));
+    start = clock();
+    printf("Maximum trapped rainwater: %d units\n", maxWater(arr, n));
+    end = clock();
+    elapsed = ((double) (end-start)) / CLOCKS_PER_SEC;
+    printf("Elapsed time: %lf\n", elapsed);
 
     free(arr);
     return 0;

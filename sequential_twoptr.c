@@ -31,27 +31,23 @@ int maxWater(int arr[], int n)
     //TODO:
     //  Implement sequential Two Pointer code,
     //  parallelize at home later   
-
+    int left = 1;
+    int right = n-2;
     int result = 0;
-    // For every element of the array
-    for (int i = 1; i < n - 1; i++)
+    int lMax = arr[left-1];
+    int rMax = arr[right+1];
+
+    if(left <= right)
     {
-        // Find max to the left
-        int left = arr[i];
-        for (int j = 0; j < i; j++)
-        {
-            if (arr[j] > left)
-                left = arr[j];
-        }
-        // Find max to the right
-        int right = arr[i];
-        for (int j = i + 1; j < n; j++)
-        {
-            if (arr[j] > right)
-                right = arr[j];
-        }
-        // Update max water result
-        result += (left < right ? left : right) - arr[i];
+        result += (rMax - arr[right]) > 0 ? (rMax - arr[right]) : 0;
+        rMax = rMax > arr[right] ? rMax: arr[right];
+        right -= 1;
+    }
+    else
+    {
+        result += (lMax - arr[left]) > 0 ? (lMax - arr[left]) : 0;
+        lMax = lMax > arr[left] ? lMax : arr[left];
+        left += 1;
     }
 
     return result;
@@ -61,6 +57,8 @@ int main(int argc, char *argv[])
 {
     int n;
     int *arr;
+    clock_t start, end;
+    double elapsed;
 
     if (argc != 2)
     {
@@ -70,11 +68,10 @@ int main(int argc, char *argv[])
     n = atoi(argv[1]); // Get array size
     arr = (int *)malloc(n * sizeof(int));
     // Generate random array of n integers
-    srand(time(NULL));
+    //srand(time(NULL));        Removed for testing consistency
     // Array "heights" will generate between 0 and 15
     for (int i = 0; i < n; i++)
     {
-        // TODO: "Random" array is generated the name for same n every time
         arr[i] = (int)((double)rand() / ((double)RAND_MAX + 1) * 16);
     }
     
@@ -89,8 +86,11 @@ int main(int argc, char *argv[])
     else
         printf("Array too lagre to print\n");
     printf("\n---------------------------------------\n");
+    start = clock();
     printf("Maximum trapped rainwater: %d units\n", maxWater(arr, n));
-
+    end = clock();
+    elapsed = ((double) (end-start)) / CLOCKS_PER_SEC;
+    printf("Elapsed time: %lf\n", elapsed);
     free(arr);
     return 0;
 }
