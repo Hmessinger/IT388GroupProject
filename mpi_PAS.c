@@ -12,7 +12,6 @@
  * Group Project
  */
 
-#include<omp.h>
 #include<mpi.h>
 #include <stdio.h>
 
