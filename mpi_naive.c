@@ -1,7 +1,7 @@
 /** FILE: mpi_naive.c
- *  Description: Here we are adding openMP to the sequential (naive) version of the trapping rainwater problem. This will parallelize the function that
+ *  Description: Here we are adding MPI to the sequential (naive) version of the trapping rainwater problem. This will parallelize the function that
  *               calculates the amount of rainwater that can be trapped. This approach will speedup the time complexity because there will be multiple
- *               threads working on the computations.
+ *               threads working on the distributed data.
  *  Compile:
  *          gcc -o mpi_naive mpi_naive.c
  *  Execution:
