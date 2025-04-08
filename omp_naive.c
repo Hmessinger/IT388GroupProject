@@ -71,6 +71,7 @@ int main(int argc, char *argv[])
         arr[i] = (int)((double)rand() / ((double)RAND_MAX + 1) * 16);
     }
 
+    // Print the array if the size of it is less than 30
     if (n < 30)
     {
         printf("Array:\n");
