@@ -39,16 +39,17 @@ int maxWater(int arr[], int n)
 
     int res = 0;
 
-// Fill left array
-#pragma omp parallel for // could be wrong
+    // Fill left array
+
     left[0] = arr[0];
+#pragma omp parallel for // could be wrong
     for (int i = 1; i < n; i++)
         left[i] = left[i - 1] > arr[i] ? left[i - 1] : arr[i];
 
     // Fill right array
 
-#pragma omp parallel for // could be wrong
     right[n - 1] = arr[n - 1];
+#pragma omp parallel for // could be wrong
     for (int i = n - 2; i >= 0; i--)
         right[i] = right[i + 1] > arr[i] ? right[i + 1] : arr[i];
 
@@ -80,7 +81,7 @@ int main(int argc, char *argv[])
     int *arr;
     double start, elapsed;
 
-    if (argc != 2)
+    if (argc != 3)
     {
         Usage(argv[0]);
     }
