@@ -56,6 +56,13 @@ int maxWater(int arr[], int n)
     return result;
 }
 
+// Usage function for displaying an input error message
+void Usage(char *prog_name)
+{
+    fprintf(stderr, "\nIncorrect number of arguments:\n---- USAGE: %s <array size> <nThreads> ----\n\n", prog_name);
+    exit(1);
+}
+
 int main(int argc, char *argv[])
 {
     int n;
@@ -65,8 +72,7 @@ int main(int argc, char *argv[])
 
     if (argc != 2)
     {
-        fprintf(stderr, "\nIncorrect number of arguments\n\t---USAGE: ./seq_naive <array size>\n\n");
-        exit(1);
+        Usage(argv[0]);
     }
     n = atoi(argv[1]); // Get array size
     arr = (int *)malloc(n * sizeof(int));
@@ -77,14 +83,16 @@ int main(int argc, char *argv[])
     {
         arr[i] = (int)((double)rand() / ((double)RAND_MAX + 1) * 16);
     }
-    
-    if(n < 30)
+
+    // Print the array if the size of it is less than 30
+    if (n < 30)
     {
         printf("Array:\n");
-        for(int i=0; i<n; i++)
+        for (int i = 0; i < n; i++)
         {
-            printf("[%d] ",arr[i]);
+            printf("[%d] ", arr[i]);
         }
+        printf("\n---------------------------------------------\n");
     }
     else
         printf("Array too lagre to print\n");
