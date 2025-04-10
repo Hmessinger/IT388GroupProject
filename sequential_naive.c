@@ -67,7 +67,8 @@ int main(int argc, char *argv[])
 {
     int n;
     int *arr;
-    double start, end;
+    clock_t start, end;
+    double elapsed;
 
     if (argc != 2)
     {
@@ -76,7 +77,7 @@ int main(int argc, char *argv[])
     n = atoi(argv[1]); // Get array size
     arr = (int *)malloc(n * sizeof(int));
     // Generate random array of n integers
-    // srand(time(NULL));
+    //srand(time(NULL));    Removed for testing consistency
     // Array "heights" will generate between 0 and 15
     for (int i = 0; i < n; i++)
     {
@@ -94,12 +95,14 @@ int main(int argc, char *argv[])
         printf("\n---------------------------------------------\n");
     }
     else
-        printf("Array too large to print\n");
-
-    start = omp_get_wtime();
-    printf("Maximum trapped rainwater: %d units\n", maxWater(arr, n, nThreads));
-    end = omp_get_wtime() - start;
-    printf("Elapsed time: %lf\n", end);
+        printf("Array too lagre to print\n");
+    printf("\n---------------------------------------\n");
+    printf("Maximum trapped rainwater: %d units\n", maxWater(arr, n));
+    start = clock();
+    printf("Maximum trapped rainwater: %d units\n", maxWater(arr, n));
+    end = clock();
+    elapsed = ((double) (end-start)) / CLOCKS_PER_SEC;
+    printf("Elapsed time: %lf\n", elapsed);
 
     free(arr);
     return 0;
