@@ -3,44 +3,57 @@
  *               calculates the amount of rainwater that can be trapped. This approach will speedup the time complexity because there will be multiple
  *               threads working on the computations.
  *  Compile:
- *          gcc -o ppas mpi_PAS.c
+ *           mpicc -g -Wall -o ppas mpi_PAS.c
+
  *  Execution:
- *          ./ppas <array size>
+ *        mpiexec -n <num_threads> ./ppas <size>         
+
  * 
  *
  * Name: Hogan Messinger, Suhail Tailor, Derek Kmieciak, Angel Hernandez
  * Course: IT 388-Spring 2025
  * Group Project
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <mpi.h>
+
 
 int trap(int* height, int heightSize, int rank, int numProcs) {
     int local_size = heightSize / numProcs;
     int start = rank * local_size;
     int end = (rank == numProcs - 1) ? heightSize : (rank + 1) * local_size;
+    local_size = end - start;
 
-    int *left_max = malloc(local_size * sizeof(int));
-    int *right_max = malloc(local_size * sizeof(int));
+    int *left_max = NULL;
+    int *right_max = NULL;
     int *local_water = malloc(local_size * sizeof(int));
 
-    // Fill left_max array for local portion
-    left_max[0] = height[start];
-    for (int i = start + 1; i < end; i++) {
-        left_max[i - start] = (height[i] > left_max[i - start - 1]) ? height[i] : left_max[i - start - 1];
+    if (rank == 0) {
+        left_max = malloc(heightSize * sizeof(int));
+        right_max = malloc(heightSize * sizeof(int));
+
+        left_max[0] = height[0];
+        for (int i = 1; i < heightSize; i++) {
+            left_max[i] = (height[i] > left_max[i - 1]) ? height[i] : left_max[i - 1];
+        }
+
+        right_max[heightSize - 1] = height[heightSize - 1];
+        for (int i = heightSize - 2; i >= 0; i--) {
+            right_max[i] = (height[i] > right_max[i + 1]) ? height[i] : right_max[i + 1];
+        }
     }
 
-    // Fill right_max array for local portion
-    right_max[end - start - 1] = height[end - 1];
-    for (int i = end - 2; i >= start; i--) {
-        right_max[i - start] = (height[i] > right_max[i - start + 1]) ? height[i] : right_max[i - start + 1];
+    if (rank != 0) {
+        left_max = malloc(heightSize * sizeof(int));
+        right_max = malloc(heightSize * sizeof(int));
     }
 
-    // Calculate local trapped water using prefix and suffix max values
+    MPI_Bcast(left_max, heightSize, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Bcast(right_max, heightSize, MPI_INT, 0, MPI_COMM_WORLD);
+
     for (int i = start; i < end; i++) {
-        int minOfTwo = (left_max[i - start] < right_max[i - start]) ? left_max[i - start] : right_max[i - start];
+        int minOfTwo = (left_max[i] < right_max[i]) ? left_max[i] : right_max[i];
         if (minOfTwo > height[i]) {
             local_water[i - start] = minOfTwo - height[i];
         } else {
@@ -48,50 +61,42 @@ int trap(int* height, int heightSize, int rank, int numProcs) {
         }
     }
 
-    // Communicate the boundary values (leftmost from the right segment, rightmost from the left segment)
-    int left_boundary, right_boundary;
-    if (rank == 0) {
-        left_boundary = left_max[local_size - 1];  // Rightmost element of rank 0's segment
-    }
-    if (rank == numProcs - 1) {
-        right_boundary = right_max[local_size - 1];  // Leftmost element of last process's segment
-    }
-
-    MPI_Bcast(&left_boundary, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&right_boundary, 1, MPI_INT, numProcs - 1, MPI_COMM_WORLD);
-
-    // Adjust the boundary elements' trapped water
-    if (rank == 0) {
-        local_water[0] += left_boundary - height[start];
-    }
-    if (rank == numProcs - 1) {
-        local_water[local_size - 1] += right_boundary - height[end - 1];
-    }
-
-    // Gather results from all processes
     int *total_water = NULL;
+    int *recvcounts = NULL;
+    int *displs = NULL;
+
     if (rank == 0) {
         total_water = malloc(heightSize * sizeof(int));
+        recvcounts = malloc(numProcs * sizeof(int));
+        displs = malloc(numProcs * sizeof(int));
+
+        for (int i = 0; i < numProcs; i++) {
+            int local_start = i * (heightSize / numProcs);
+            int local_end = (i == numProcs - 1) ? heightSize : (i + 1) * (heightSize / numProcs);
+            recvcounts[i] = local_end - local_start;
+            displs[i] = local_start;
+        }
     }
 
-    MPI_Gather(local_water, local_size, MPI_INT, total_water, local_size, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Gatherv(local_water, local_size, MPI_INT, total_water, recvcounts, displs, MPI_INT, 0, MPI_COMM_WORLD);
 
-    // Calculate total trapped water at root process
     int total = 0;
     if (rank == 0) {
         for (int i = 0; i < heightSize; i++) {
             total += total_water[i];
         }
         free(total_water);
+        free(recvcounts);
+        free(displs);
     }
 
-    // Free local arrays
     free(left_max);
     free(right_max);
     free(local_water);
 
     return total;
 }
+
 void printArray(int* arr, int size, const char* label) {
     printf("%s: [", label);
     for (int i = 0; i < size; i++) {
@@ -129,17 +134,16 @@ int main(int argc, char** argv) {
     // Broadcast the height array to all processes
     MPI_Bcast(height, heightSize, MPI_INT, 0, MPI_COMM_WORLD);
 
-    //start time
+    // Start time
     double start_time = MPI_Wtime();
 
     int total_water = trap(height, heightSize, rank, numProcs);
-    //end time
+
+    // End time
     double end_time = MPI_Wtime();
 
     if (rank == 0) {
-
-         printArray(height, heightSize, "Array: ");
-
+        printArray(height, heightSize, "Array: ");
         printf("Total trapped water: %d\n", total_water);
         printf("Total execution time: %f seconds\n", end_time - start_time);
     }
