@@ -37,17 +37,20 @@ int maxWater(int arr[], int n)
     int lMax = arr[left-1];
     int rMax = arr[right+1];
 
-    if(left <= right)
+    while(left <= right)
     {
-        result += (rMax - arr[right]) > 0 ? (rMax - arr[right]) : 0;
-        rMax = rMax > arr[right] ? rMax: arr[right];
-        right -= 1;
-    }
-    else
-    {
-        result += (lMax - arr[left]) > 0 ? (lMax - arr[left]) : 0;
-        lMax = lMax > arr[left] ? lMax : arr[left];
-        left += 1;
+        if(rMax <= lMax)
+        {
+            result += (rMax - arr[right]) > 0 ? (rMax - arr[right]) : 0;
+            rMax = rMax > arr[right] ? rMax: arr[right];
+            right -= 1;
+        }
+        else
+        {
+            result += (lMax - arr[left]) > 0 ? (lMax - arr[left]) : 0;
+            lMax = lMax > arr[left] ? lMax : arr[left];
+            left += 1;
+        }
     }
 
     return result;
