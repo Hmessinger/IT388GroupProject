@@ -20,12 +20,14 @@ This code will be modified into the parallel final code.
 
 */
 
-#include<omp.h>
+#include <omp.h>
 #include <stdio.h>
+#include <stdlib.h>
 
- //    sequecnial part of the omp pas so far.  
+//    sequecnial part of the omp pas so far.
 
-int maxWater(int arr[], int n) {
+int maxWater(int arr[], int n)
+{
 
     // Left[i] contains height of tallest bar to the
     // left of i'th bar including itself
@@ -37,25 +39,27 @@ int maxWater(int arr[], int n) {
 
     int res = 0;
 
-    // Fill left array
-    #pragma omp parallel for                     // could be wrong
+// Fill left array
+#pragma omp parallel for // could be wrong
     left[0] = arr[0];
     for (int i = 1; i < n; i++)
         left[i] = left[i - 1] > arr[i] ? left[i - 1] : arr[i];
 
     // Fill right array
 
-    #pragma omp parallel for                   // could be wrong
+#pragma omp parallel for // could be wrong
     right[n - 1] = arr[n - 1];
     for (int i = n - 2; i >= 0; i--)
         right[i] = right[i + 1] > arr[i] ? right[i + 1] : arr[i];
 
     // Calculate the accumulated water element by element
 
-    #pragma omp parallel for                // could be wrong
-    for (int i = 1; i < n - 1; i++) {
+#pragma omp parallel for // could be wrong
+    for (int i = 1; i < n - 1; i++)
+    {
         int minOf2 = left[i - 1] < right[i + 1] ? left[i - 1] : right[i + 1];
-        if (minOf2 > arr[i]) {
+        if (minOf2 > arr[i])
+        {
             res += minOf2 - arr[i];
         }
     }
@@ -63,8 +67,16 @@ int maxWater(int arr[], int n) {
     return res;
 }
 
-int main() {
-    int num;
+// Usage function for displaying an input error message
+void Usage(char *prog_name)
+{
+    fprintf(stderr, "\nIncorrect number of arguments:\n---- USAGE: %s <array size> <nThreads> ----\n\n", prog_name);
+    exit(1);
+}
+
+int main(int argc, char *argv[])
+{
+    int num, nThreads;
     int *arr;
     double start, elapsed;
 
@@ -73,18 +85,20 @@ int main() {
         Usage(argv[0]);
     }
 
-    num = atoi(argv[1]); // Get array size
+    num = atoi(argv[1]);      // Get array size
+    nThreads = atoi(argv[2]); // Get number of threads
+    omp_set_num_threads(nThreads);
     arr = (int *)malloc(num * sizeof(int));
     // Generate random array of n integers
-    //srand(time(NULL));    Removed for testing consistency
+    // srand(time(NULL));    Removed for testing consistency
     // Array "heights" will generate between 0 and 15
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < num; i++)
     {
         arr[i] = (int)((double)rand() / ((double)RAND_MAX + 1) * 16);
     }
     start = omp_get_wtime();
     int n = sizeof(arr) / sizeof(arr[0]);
-    elapsed=omp_get_wtime()-start;
+    elapsed = omp_get_wtime() - start;
     printf("elapsed time :   %lf ", elapsed);
     printf("%d", maxWater(arr, n));
     return 0;
