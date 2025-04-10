@@ -92,6 +92,14 @@ int trap(int* height, int heightSize, int rank, int numProcs) {
 
     return total;
 }
+void printArray(int* arr, int size, const char* label) {
+    printf("%s: [", label);
+    for (int i = 0; i < size; i++) {
+        printf("%d", arr[i]);
+        if (i < size - 1) printf(", ");
+    }
+    printf("]\n");
+}
 
 int main(int argc, char** argv) {
     int rank, numProcs;
@@ -129,6 +137,9 @@ int main(int argc, char** argv) {
     double end_time = MPI_Wtime();
 
     if (rank == 0) {
+
+         printArray(height, heightSize, "Array: ");
+
         printf("Total trapped water: %d\n", total_water);
         printf("Total execution time: %f seconds\n", end_time - start_time);
     }
