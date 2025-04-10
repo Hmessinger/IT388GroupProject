@@ -1,8 +1,8 @@
 /** FILE: omp_PAS.c
  *  Description: Here we are implementing the omp version of the preffix and suffix approach to the catching rain water problem.
- *          gcc -o omppas omp_PAS.c
+ *          gcc -o omppas omp_PAS.c -fopenmp
  *  Execution:
- *          ./omppas <array size>
+ *          ./omppas <array size> <num of threads>
  *
  * Name: Hogan Messinger, Suhail Tailor, Derek Kmieciak, Angel Hernandez
  * Course: IT 388-Spring 2025
@@ -22,6 +22,8 @@ This code will be modified into the parallel final code.
 
 #include<omp.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
  //    sequecnial part of the omp pas so far.  
 
@@ -68,7 +70,7 @@ int main() {
     int *arr;
     double start, elapsed;
 
-    if (argc != 2)
+    if (argc != 3)
     {
         Usage(argv[0]);
     }
@@ -84,7 +86,7 @@ int main() {
     }
     start = omp_get_wtime();
     int n = sizeof(arr) / sizeof(arr[0]);
-    elapsed=omp_get_wtime()-start;
+    elapsed=omp_get_wtime() - start;
     printf("elapsed time :   %lf ", elapsed);
     printf("%d", maxWater(arr, n));
     return 0;
