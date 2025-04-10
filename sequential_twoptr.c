@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 
     if (argc != 2)
     {
-        fprintf(stderr, "\nIncorrect number of arguments\n\t---USAGE: ./seq_naive <array size>\n\n");
+        fprintf(stderr, "\nIncorrect number of arguments\n\t---USAGE: ./seq_tp <array size>\n\n");
         exit(1);
     }
     n = atoi(argv[1]); // Get array size
