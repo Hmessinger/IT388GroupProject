@@ -232,9 +232,12 @@ int main(int argc, char *argv[])
         printf("Elapsed time: %lf seconds\n", elapsed_time);
     }
 
-    free(arr);
-    free(leftarr);
-    free(rightarr);
+    if (arr != NULL)
+        free(arr);
+    if ((rank == 0 || rank == 1) && leftarr != NULL)
+        free(leftarr);
+    if ((rank == 0 || rank == 2) && rightarr != NULL)
+        free(rightarr);
     MPI_Finalize();
     return 0;
 }
