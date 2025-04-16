@@ -6,6 +6,8 @@
  *  Execution:
  *          mpiexec -n <number of cores> ./mpi_tp <array size>
  *
+ * NOTE: You must use 3 processes
+ *
  * Name: Hogan Messinger, Suhail Tailor, Derek Kmieciak, Angel Hernandez
  * Course: IT 388-Spring 2025
  * Group Project
