@@ -28,25 +28,43 @@ This code will be modified into the parallel final code.
 
 int maxWater(int arr[], int n, int nThreads)
 { 
-    int left;
-    //int left = 1;
+    int left = 1;
     int right = n-2;
     int result = 0;
-    int lMax = arr[left-1];
-    int rMax = arr[right+1];
+    int lMax = arr[left-1]; //arr[0]
+    int rMax = arr[right+1]; //arr[n-1]
+    int phase = 0;
 
-    /*
-        TODO: 
-        For loop is not going to work
-            >Performance is just worse
-            >Race condition in the left++ ruins the logic
-                --Can't get rid of it; OpenMP disallows (;left<=right;)
-        While loop while likely have to be replaced with OMP tasks
-            >OMP Single to prevent duplicate execution
-            >Private and critical/atomic, etc. to prevent race condtitions
-    */
+    //while(left <= right)
+    //#pragma omp parallel for num_threads(nThreads) reduction(+:result) firstprivate(right)
 
-    //COPY Sequential code in here and make modifications
+    //TODO: This approach doesnt work also; retry something else
+    for(phase=0; phase<n; phase++)
+    {
+        if(phase%2==0) //Even phase
+        {
+            for(left=1; left<=right; left+=2)
+            {
+                if(rMax <= lMax)
+                {
+                    result += (rMax - arr[right]) > 0 ? (rMax - arr[right]) : 0;
+                    rMax = rMax > arr[right] ? rMax: arr[right];
+                    right -= 2;
+                }
+            }
+        }
+        else //Odd phase
+        {
+            for(left=1; left<=right-2; left+=2)
+            {
+                result += (lMax - arr[left]) > 0 ? (lMax - arr[left]) : 0;
+                lMax = lMax > arr[left] ? lMax : arr[left];
+                //left += 1;
+            }
+        }
+    }
+
+    return result;
 }
 
 int main(int argc, char *argv[])
