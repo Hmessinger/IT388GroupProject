@@ -68,16 +68,24 @@ int main(int argc, char *argv[])
     clock_t start, end;
     double elapsed;
 
-    if (argc != 2)
+    if (argc == 1)
+    {
+        n = 379;
+        arr = /*insert here Suhail*/;
+    }
+    else if (argc == 2)
+    {
+        n = atoi(argv[1]); // Get array size
+        arr = (int *)malloc(n * sizeof(int));
+        // Array "heights" will generate between 0 and 15
+        for (int i = 0; i < n; i++)
+        {
+            arr[i] = (int)((double)rand() / ((double)RAND_MAX + 1) * 16);
+        }
+    }
+    else
     {
         Usage(argv[0]);
-    }
-    n = atoi(argv[1]); // Get array size
-    arr = (int *)malloc(n * sizeof(int));
-    // Array "heights" will generate between 0 and 15
-    for (int i = 0; i < n; i++)
-    {
-        arr[i] = (int)((double)rand() / ((double)RAND_MAX + 1) * 16);
     }
 
     // Print the array if the size of it is less than 30
