@@ -12,18 +12,16 @@
  * Group Project
  */
 
-/*
-Sequential approach to the trapping rainwater problem.
-Naive approach: O(n^2) double loop
-
-Code credit: Geeks For Geeks
-    https://geeksforgeeks.org/trapping-rain-water/#
-
-This code will be modified into the parallel final code.
-
-Compile: gcc -o seq_naive sequential_naive.c
-Execute: ./seq_naive <array size>
-*/
+/**
+ * Sequential approach to the trapping rainwater problem.
+ * Naive approach: O(n^2) double loop
+ *
+ * Code credit: Geeks For Geeks
+ *  https://geeksforgeeks.org/trapping-rain-water/#
+ *
+ * This code will be modified into the parallel final code.
+ *
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -76,8 +74,6 @@ int main(int argc, char *argv[])
     }
     n = atoi(argv[1]); // Get array size
     arr = (int *)malloc(n * sizeof(int));
-    // Generate random array of n integers
-    //srand(time(NULL));    Removed for testing consistency
     // Array "heights" will generate between 0 and 15
     for (int i = 0; i < n; i++)
     {
@@ -101,7 +97,7 @@ int main(int argc, char *argv[])
     start = clock();
     printf("Maximum trapped rainwater: %d units\n", maxWater(arr, n));
     end = clock();
-    elapsed = ((double) (end-start)) / CLOCKS_PER_SEC;
+    elapsed = ((double)(end - start)) / CLOCKS_PER_SEC;
     printf("Elapsed time: %lf\n", elapsed);
 
     free(arr);
