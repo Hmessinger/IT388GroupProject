@@ -12,6 +12,8 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 int maxWater(int arr[], int n) {
 
@@ -46,9 +48,38 @@ int maxWater(int arr[], int n) {
     return res;
 }
 
-int main() {
-    int arr[] = { 2, 1, 5, 3, 1, 0, 4 };
+void Usage(char *prog_name)
+{
+    fprintf(stderr, "\nIncorrect number of arguments:\n---- USAGE: %s <array size> <nThreads> ----\n\n", prog_name);
+    exit(1);
+}
+
+int main(int argc, char *argv[]) {
+    int num, nThreads;
+    int *arr;
+    clock_t start, end;
+    double elapsed;
+
+    if (argc != 2)
+    {
+        Usage(argv[0]);
+    }
+
+    num = atoi(argv[1]);      // Get array size
+    arr = (int *)malloc(num * sizeof(int));
+    // Generate random array of n integers
+    // srand(time(NULL));    Removed for testing consistency
+    // Array "heights" will generate between 0 and 15
+    for (int i = 0; i < num; i++)
+    {
+        arr[i] = (int)((double)rand() / ((double)RAND_MAX + 1) * 16);
+    }
+    start = clock();
     int n = sizeof(arr) / sizeof(arr[0]);
-    printf("%d", maxWater(arr, n));
+    printf(" \n");
+    printf("totalwater :%d  \n", maxWater(arr, num));
+    end = clock();
+    elapsed = ((double) (end-start)) / CLOCKS_PER_SEC;
+    printf("Elapsed time: %lf\n", elapsed);
     return 0;
 }
