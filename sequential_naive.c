@@ -91,9 +91,8 @@ int main(int argc, char *argv[])
         printf("\n---------------------------------------------\n");
     }
     else
-        printf("Array too lagre to print\n");
-    printf("\n---------------------------------------\n");
-    printf("Maximum trapped rainwater: %d units\n", maxWater(arr, n));
+        printf("Array too large to print\n");
+
     start = clock();
     printf("Maximum trapped rainwater: %d units\n", maxWater(arr, n));
     end = clock();
