@@ -1,38 +1,43 @@
 /** FILE: mpi_twoptr.c
- *  Description: Here we are implementing the MPI version of the two pointer approach to the catching rain water problem.
+ *  Description: Here we are implementing the MPI version of the two pointer approach to the trapping rain water problem. The maxWater
+ *               function uses two pointers to calculate the maximum trapped water. This two pointer approach in the function has to work sequentially.
+ *               To parallelize this, we are splitting up the sequentially work amongst the processes. In this code, we are finding the largest value in the array
+ *               and we are using one process to compute the total trapped rainwater in the first half of the array and another process to find the trapped rainwater
+ *               in the second half.
  *
  *  Compile:
  *          mpicc -g -Wall -o mpi_tp mpi_twoptr.c
  *  Execution:
  *          mpiexec -n <number of cores> ./mpi_tp <array size>
- *
- * NOTE: You must use 3 processes
+ *          NOTE: You must use 3 processes
  *
  * Name: Hogan Messinger, Suhail Tailor, Derek Kmieciak, Angel Hernandez
  * Course: IT 388-Spring 2025
  * Group Project
  */
 
-/*
-MPI approach to the trapping rainwater problem.
-Two Pointer Approach: O(n)
-
-Code credit: Geeks For Geeks
-    https://geeksforgeeks.org/trapping-rain-water/#
-
-This code will be modified into the parallel final code.
-*/
+/**
+ * MPI approach to the trapping rainwater problem.
+ * Two Pointer Approach: O(n)
+ *
+ * Code credit: Geeks For Geeks
+ *   https://geeksforgeeks.org/trapping-rain-water/#
+ *
+ * This sequential code has been modified into a parallel version.
+ *
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <mpi.h>
 #include <time.h>
 
+// This function uses two pointers to compute the total trapped rainwater in the array
 int maxWater(int arr[], int n)
 {
 
     if (n < 3)
-        return 0; // No water can be trapped
+        return 0; // No water can be trapped when there is less than 3 values
 
     int left = 1;
     int right = n - 2;
@@ -58,6 +63,7 @@ int maxWater(int arr[], int n)
     return result;
 }
 
+// This function finds the largest value in the array
 int largestValue(int arr[], int size)
 {
     if (size <= 0)
@@ -77,6 +83,7 @@ int largestValue(int arr[], int size)
     return maxIdx;
 }
 
+// This function creates a subarray of an initial array
 void get_subarray(int arr[], int subarray[], int size, int start_index)
 {
     for (int i = 0; i < size; i++)
@@ -136,17 +143,6 @@ int main(int argc, char *argv[])
         get_subarray(arr, leftarr, leftSize, 0);
         get_subarray(arr, rightarr, rightSize, max_val_index);
 
-        if (n < 30)
-        {
-            printf("Left Subarray:\n");
-            for (int i = 0; i < leftSize; i++)
-                printf("%d ", leftarr[i]);
-            printf("\nRight Subarray:\n");
-            for (int i = 0; i < rightSize; i++)
-                printf("%d ", rightarr[i]);
-            printf("\n");
-        }
-
         // Print the array if the size of it is less than 30
         if (n < 30)
         {
@@ -162,19 +158,16 @@ int main(int argc, char *argv[])
     }
 
     /**
-     *
-     * TODO:
-     * Maxwater Method goes here
-     * May not be able to parallelize this with MPI, ask Chat
-     *
-     * Find the largest value in the array
-     * have one process work on the left side and one work on the right side
-     * (Set that value as the local_right_max for the left side computations and vice versa for the right side)
-     * The processes will use that value to determine its starting indexes
+     * Logic for the processes:
+     * 1. Find the largest value in the array
+     * 2. Split the array and have one process work on the left side and one work on the right side
+     *  (The middle, where the array is being split, is the largest values index)
+     * 3. The processes will use the maxWater function to determine their local total trapped water
+     * 4. The processes will reduce their local values to a final total.
      *
      */
 
-    // Create arrays for the other processes
+    // Send the subarrays and their sizes to the working processes
     if (rank == 0)
     {
         // Sending the left size and subarray to rank 1
@@ -186,6 +179,7 @@ int main(int argc, char *argv[])
         MPI_Send(rightarr, rightSize, MPI_INT, 2, 3, comm);
     }
 
+    // Process 1 is receiving the left side subarray
     if (rank == 1)
     {
         MPI_Recv(&leftSize, 1, MPI_INT, 0, 0, comm, MPI_STATUS_IGNORE);
@@ -193,6 +187,7 @@ int main(int argc, char *argv[])
         MPI_Recv(leftarr, leftSize, MPI_INT, 0, 1, comm, MPI_STATUS_IGNORE);
     }
 
+    // Process 2 is receiving the right side subarray
     if (rank == 2)
     {
         MPI_Recv(&rightSize, 1, MPI_INT, 0, 2, comm, MPI_STATUS_IGNORE);
@@ -200,20 +195,10 @@ int main(int argc, char *argv[])
         MPI_Recv(rightarr, rightSize, MPI_INT, 0, 3, comm, MPI_STATUS_IGNORE);
     }
 
-    // MPI_Bcast(&leftSize, 1, MPI_INT, 0, comm);
-    // MPI_Bcast(&rightSize, 1, MPI_INT, 0, comm);
-
-    // if (rank != 0)
-    // {
-    //     leftarr = (int *)malloc(leftSize * sizeof(int));
-    //     rightarr = (int *)malloc(rightSize * sizeof(int));
-    // }
-    // MPI_Bcast(leftarr, leftSize, MPI_INT, 0, comm);
-    // MPI_Bcast(rightarr, rightSize, MPI_INT, 0, comm);
-
     MPI_Barrier(comm); // sync all processes
     start_time = MPI_Wtime();
 
+    // The processes calculate their local sums
     if (rank == 1)
     {
         local_result = maxWater(leftarr, leftSize);
@@ -223,6 +208,7 @@ int main(int argc, char *argv[])
         local_result = maxWater(rightarr, rightSize);
     }
 
+    // Reducing to get the total sum
     MPI_Reduce(&local_result, &global_result, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
 
     MPI_Barrier(comm); // sync again
