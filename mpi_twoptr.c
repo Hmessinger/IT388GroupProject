@@ -8,7 +8,7 @@
  *  Compile:
  *          mpicc -g -Wall -o mpi_tp mpi_twoptr.c
  *  Execution:
- *          mpiexec -n <number of cores> ./mpi_tp <array size>
+ *          mpiexec -n <number of core = 3> ./mpi_tp <array size>
  *          NOTE: You must use 3 processes
  *
  * Name: Hogan Messinger, Suhail Tailor, Derek Kmieciak, Angel Hernandez
@@ -95,7 +95,7 @@ void get_subarray(int arr[], int subarray[], int size, int start_index)
 // Usage function for displaying an input error message
 void Usage(char *prog_name)
 {
-    fprintf(stderr, "\nIncorrect number of arguments:\n---- USAGE: mpiexec -n <number of cores> %s <array size> ----\n\n", prog_name);
+    fprintf(stderr, "\nIncorrect number of arguments:\n---- USAGE: mpiexec -n <number of cores = 3> %s <array size> ----\n\n", prog_name);
 }
 
 int main(int argc, char *argv[])
