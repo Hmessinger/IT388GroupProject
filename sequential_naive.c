@@ -12,18 +12,16 @@
  * Group Project
  */
 
-/*
-Sequential approach to the trapping rainwater problem.
-Naive approach: O(n^2) double loop
-
-Code credit: Geeks For Geeks
-    https://geeksforgeeks.org/trapping-rain-water/#
-
-This code will be modified into the parallel final code.
-
-Compile: gcc -o seq_naive sequential_naive.c
-Execute: ./seq_naive <array size>
-*/
+/**
+ * Sequential approach to the trapping rainwater problem.
+ * Naive approach: O(n^2) double loop
+ *
+ * Code credit: Geeks For Geeks
+ *  https://geeksforgeeks.org/trapping-rain-water/#
+ *
+ * This code will be modified into the parallel final code.
+ *
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -70,18 +68,24 @@ int main(int argc, char *argv[])
     clock_t start, end;
     double elapsed;
 
-    if (argc != 2)
+    if (argc == 1)
+    {
+        n = 379;
+        arr = /*insert here Suhail*/;
+    }
+    else if (argc == 2)
+    {
+        n = atoi(argv[1]); // Get array size
+        arr = (int *)malloc(n * sizeof(int));
+        // Array "heights" will generate between 0 and 15
+        for (int i = 0; i < n; i++)
+        {
+            arr[i] = (int)((double)rand() / ((double)RAND_MAX + 1) * 16);
+        }
+    }
+    else
     {
         Usage(argv[0]);
-    }
-    n = atoi(argv[1]); // Get array size
-    arr = (int *)malloc(n * sizeof(int));
-    // Generate random array of n integers
-    //srand(time(NULL));    Removed for testing consistency
-    // Array "heights" will generate between 0 and 15
-    for (int i = 0; i < n; i++)
-    {
-        arr[i] = (int)((double)rand() / ((double)RAND_MAX + 1) * 16);
     }
 
     // Print the array if the size of it is less than 30
@@ -95,12 +99,12 @@ int main(int argc, char *argv[])
         printf("\n---------------------------------------------\n");
     }
     else
-        printf("Array too lagre to print\n");
-    printf("\n---------------------------------------\n");
+        printf("Array too large to print\n");
+
     start = clock();
     printf("Maximum trapped rainwater: %d units\n", maxWater(arr, n));
     end = clock();
-    elapsed = ((double) (end-start)) / CLOCKS_PER_SEC;
+    elapsed = ((double)(end - start)) / CLOCKS_PER_SEC;
     printf("Elapsed time: %lf\n", elapsed);
 
     free(arr);

@@ -13,6 +13,17 @@
  * Group Project
  */
 
+/**
+ * Sequential approach to the trapping rainwater problem.
+ * Naive approach: O(n^2) double loop
+ *
+ * Code credit: Geeks For Geeks
+ *  https://geeksforgeeks.org/trapping-rain-water/#
+ *
+ * This sequential code has been modified into a parallel version.
+ *
+ */
+
 #include <mpi.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -47,7 +58,6 @@ int main(int argc, char *argv[])
 
         // generates the array
         arr = (int *)malloc(n * sizeof(int)); // Allocate memory to the array
-        // Generate random array of n integers
         // Array "heights" will generate between 0 and 15
         for (int i = 0; i < n; i++)
         {
