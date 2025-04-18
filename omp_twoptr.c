@@ -20,7 +20,6 @@ Code credit: Geeks For Geeks
 This code will be modified into the parallel final code.
 
 */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
