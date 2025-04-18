@@ -1,7 +1,7 @@
 /** FILE: omp_twoptr.c
  *  Description: Here we are implementing the OMP version of the trapping rainwater problem. 
  *  Compile:
- *          gcc -o omp_tp omp_twoptr.c -fopenmp
+ *          gcc -o omp_tp omp_twoptr.c -fopenmp -lm 
  *  Execution:
  *          ./omp_tp <array size> <nThreads>
  *
@@ -25,45 +25,79 @@ This code will be modified into the parallel final code.
 #include <stdlib.h>
 #include <time.h>
 #include <omp.h>
+#include <math.h> //fmax function. Removes a lot of if-else statements
 
 int maxWater(int arr[], int n, int nThreads)
 { 
-    int left = 1;
-    int right = n-2;
+    if(n<=2)
+        return 0; //Can't trap any water with just 2 or fewer walls
+    //The two pointer approach only works in sequence.
+    //This approach divides the sequential work among multiple threads.
     int result = 0;
-    int lMax = arr[left-1]; //arr[0]
-    int rMax = arr[right+1]; //arr[n-1]
-    int phase = 0;
+    int right, left, rMax, lMax, rank;
+    int* local_lMax = (int*)malloc(sizeof(int) * nThreads);
+    int* local_rMax = (int*)malloc(sizeof(int) * nThreads);
+    int* lBounds = (int*)malloc(sizeof(int) * nThreads);
+    int* rBounds = (int*)malloc(sizeof(int) * nThreads);
+    int work = (n + nThreads - 1) / nThreads;
 
-    //while(left <= right)
-    //#pragma omp parallel for num_threads(nThreads) reduction(+:result) firstprivate(right)
-
-    //TODO: This approach doesnt work also; retry something else
-    for(phase=0; phase<n; phase++)
+    //Find the local maxima for each of the parts
+    #pragma omp parallel num_threads(nThreads) private(left, right, rank)
     {
-        if(phase%2==0) //Even phase
+        rank = omp_get_thread_num();
+        left = rank*work;
+        right = (left + work > n ? n : (left+work));
+        local_lMax[rank] = arr[left];
+        for(int i=left+1; i<right; i++)
+            local_lMax[rank] = fmax( local_lMax[rank], arr[i] );
+        local_rMax[rank] = arr[right-1];
+        for(int i=right-2; i>=left; i--)
+            local_rMax[rank] = fmax( local_rMax[rank], arr[i] );
+    }
+    //Find depedencies on borders (what if the first block in the next section would trap rainwater in this one? 
+    //This prevents edges of chunks from losing water)
+    //These dependencies are the reason two pointer can't be fully parallelized in the first place --
+    //And the restructured version to remove the dependencies is the PAS method.
+    lBounds[0] = local_lMax[0];
+    for(int i=1; i<nThreads; i++)
+        lBounds[i] = fmax( lBounds[i-1], local_lMax[i] );
+    rBounds[nThreads-1] = local_rMax[nThreads-1];
+    for(int i=nThreads-2; i>=0; i--)
+        rBounds[i] = fmax( rBounds[i+1], local_rMax[i] );
+    //Now two pointer approach can be used on each of the small sections without dependency issues
+    //Each will be operated on by a thread - sequential work divided among parallel threads
+    #pragma omp parallel num_threads(nThreads) private(left, right, rank, rMax, lMax) reduction(+:result)
+    {
+        rank = omp_get_thread_num();
+        int start = rank * work;
+        int end = (start + work > n ? n : (start + work));
+        left = start;
+        right = end - 1;
+        lMax = arr[left];
+        rMax = arr[right];
+
+        lMax = fmax(lMax, rank > 0 ? lBounds[rank-1] : lMax);
+        rMax = fmax(rMax, rank < nThreads-1 ? rBounds[rank+1] : rMax);
+        while(left <= right)
         {
-            for(left=1; left<=right; left+=2)
+            if(rMax <= lMax)
             {
-                if(rMax <= lMax)
-                {
-                    result += (rMax - arr[right]) > 0 ? (rMax - arr[right]) : 0;
-                    rMax = rMax > arr[right] ? rMax: arr[right];
-                    right -= 2;
-                }
+                result += (rMax - arr[right]) > 0 ? (rMax - arr[right]) : 0;
+                rMax = rMax > arr[right] ? rMax: arr[right];
+                right -= 1;
             }
-        }
-        else //Odd phase
-        {
-            for(left=1; left<=right-2; left+=2)
+            else
             {
                 result += (lMax - arr[left]) > 0 ? (lMax - arr[left]) : 0;
                 lMax = lMax > arr[left] ? lMax : arr[left];
-                //left += 1;
+                left += 1;
             }
         }
     }
-
+    free(local_lMax);
+    free(local_rMax);
+    free(lBounds);
+    free(rBounds);
     return result;
 }
 
