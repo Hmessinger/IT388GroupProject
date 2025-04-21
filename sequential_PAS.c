@@ -109,8 +109,8 @@ int main(int argc, char *argv[])
         Usage(argv[0]);
     }
 
-    start = clock();
     printf("N size: %d\n", n);
+    start = clock();
     printf("Maximum trapped rainwater: %d units\n", maxWater(arr, n));
     end = clock();
     elapsed = ((double)(end - start)) / CLOCKS_PER_SEC;
