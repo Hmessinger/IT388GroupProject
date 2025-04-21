@@ -1,10 +1,10 @@
 /** FILE: sequencial_PAS.c
- *  Description: Here we are implenting the sequencial code of catching rain water.this version we calulcalute the highest bar on the left first and on the right. we use pointers
- * to traverse the arra. 
+ *  Description: Here we are implementing the sequencial code of catching rain water.this version we calculate the highest bar on the left first and on the right. we use pointers
+ * to traverse the array.
  *  Compile:
  *          gcc -o spas sequential_PAS.c
  *  Execution:
- *          ./spas <array size>     implemented later
+ *          ./spas <array size>
  *
  * Name: Hogan Messinger, Suhail Tailor, Derek Kmieciak, Angel Hernandez
  * Course: IT 388-Spring 2025
@@ -15,7 +15,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-int maxWater(int arr[], int n) {
+int maxWater(int arr[], int n)
+{
 
     // Left[i] contains height of tallest bar to the
     // left of i'th bar including itself
@@ -38,9 +39,11 @@ int maxWater(int arr[], int n) {
         right[i] = right[i + 1] > arr[i] ? right[i + 1] : arr[i];
 
     // Calculate the accumulated water element by element
-    for (int i = 1; i < n - 1; i++) {
+    for (int i = 1; i < n - 1; i++)
+    {
         int minOf2 = left[i - 1] < right[i + 1] ? left[i - 1] : right[i + 1];
-        if (minOf2 > arr[i]) {
+        if (minOf2 > arr[i])
+        {
             res += minOf2 - arr[i];
         }
     }
@@ -54,7 +57,8 @@ void Usage(char *prog_name)
     exit(1);
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     int num, nThreads;
     int *arr;
     clock_t start, end;
@@ -65,7 +69,7 @@ int main(int argc, char *argv[]) {
         Usage(argv[0]);
     }
 
-    num = atoi(argv[1]);      // Get array size
+    num = atoi(argv[1]); // Get array size
     arr = (int *)malloc(num * sizeof(int));
     // Generate random array of n integers
     // srand(time(NULL));    Removed for testing consistency
@@ -79,7 +83,7 @@ int main(int argc, char *argv[]) {
     printf(" \n");
     printf("totalwater :%d  \n", maxWater(arr, num));
     end = clock();
-    elapsed = ((double) (end-start)) / CLOCKS_PER_SEC;
+    elapsed = ((double)(end - start)) / CLOCKS_PER_SEC;
     printf("Elapsed time: %lf\n", elapsed);
     return 0;
 }
