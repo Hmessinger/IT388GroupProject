@@ -4,10 +4,9 @@
  *               threads working on the computations.
  *  Compile:
  *           mpicc -g -Wall -o ppas mpi_PAS.c
-
+ *
  *  Execution:
  *        mpiexec -n <num_threads> ./ppas <size>
-
  *
  *
  * Name: Hogan Messinger, Suhail Tailor, Derek Kmieciak, Angel Hernandez
