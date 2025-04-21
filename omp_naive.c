@@ -107,7 +107,9 @@ int main(int argc, char *argv[])
         Usage(argv[0]);
     }
 
+    printf("OMP_naive:\n");
     printf("N size: %d\n", n);
+    printf("Number of threads: %d\n", nThreads);
     start = omp_get_wtime();
     printf("Maximum trapped rainwater: %d units\n", maxWater(arr, n, nThreads));
     end = omp_get_wtime() - start;

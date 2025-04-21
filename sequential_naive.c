@@ -113,6 +113,7 @@ int main(int argc, char *argv[])
         Usage(argv[0]);
     }
 
+    printf("Sequential_naive:\n");
     printf("N size: %d\n", n);
     start = clock();
     printf("Maximum trapped rainwater: %d units\n", maxWater(arr, n));

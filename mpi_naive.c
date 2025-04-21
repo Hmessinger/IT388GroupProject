@@ -154,7 +154,9 @@ int main(int argc, char *argv[])
 
     if (rank == 0)
     {
+        printf("MPI_naive:\n");
         printf("N size: %d\n", n);
+        printf("Number of processes: %d\n", nproc);
         printf("Maximum trapped rainwater: %d units\n", global_result);
         printf("Elapsed time: %lf seconds\n", elapsed_time);
     }

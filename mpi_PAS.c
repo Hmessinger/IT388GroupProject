@@ -192,7 +192,9 @@ int main(int argc, char **argv)
 
     if (rank == 0)
     {
+        printf("MPI_PAS:\n");
         printf("N size: %d\n", heightSize);
+        printf("Number of processes: %d\n", numProcs);
         printf("Maximum trapped rainwater: %d units\n", total_water);
         printf("Elapsed time: %lf seconds\n", end_time - start_time);
     }
