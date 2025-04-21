@@ -1,0 +1,26 @@
+#!/bin/bash
+#SBATCH --job-name="seq_naive"
+#SBATCH --output="seq_naive.txt"
+#SBATCH --partition=compute
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=50
+#SBATCH --mem=4G
+#SBATCH --account=isu102
+#SBATCH --export=ALL
+#SBATCH -t 00:10:00
+
+# Running job for sequential naive approach
+srun ./seq_naive 10
+
+srun ./seq_naive 100
+
+srun ./seq_naive //This will print the Chicago Building Heights
+
+srun ./seq_naive 10000
+
+srun ./seq_naive 100000
+
+srun ./seq_naive 1000000
+
+srun ./seq_naive 2000000
