@@ -10,12 +10,12 @@
 #SBATCH --export=ALL
 #SBATCH -t 00:10:00
 
-# Running job for sequential naive approach
+# Running jobs for sequential two pointer approach
 srun ./seq_tp 10
 
 srun ./seq_tp 100
 
-srun ./seq_tp //This will print the Chicago Building Heights
+srun ./seq_tp #This will print the Chicago Building Heights
 
 srun ./seq_tp 10000
 

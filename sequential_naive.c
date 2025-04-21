@@ -113,21 +113,9 @@ int main(int argc, char *argv[])
         Usage(argv[0]);
     }
 
-    // Print the array if the size of it is less than 30
-    if (n < 30)
-    {
-        printf("Array:\n");
-        for (int i = 0; i < n; i++)
-        {
-            printf("[%d] ", arr[i]);
-        }
-        printf("\n---------------------------------------------\n");
-    }
-    else
-        printf("Array too large to print\n");
-
-    start = clock();
+    printf("Sequential_naive:\n");
     printf("N size: %d\n", n);
+    start = clock();
     printf("Maximum trapped rainwater: %d units\n", maxWater(arr, n));
     end = clock();
     elapsed = ((double)(end - start)) / CLOCKS_PER_SEC;

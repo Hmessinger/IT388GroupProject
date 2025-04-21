@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name="seq_naive"
-#SBATCH --output="seq_naive.txt"
+#SBATCH --output="seq_Naive.txt"
 #SBATCH --partition=compute
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
@@ -10,12 +10,12 @@
 #SBATCH --export=ALL
 #SBATCH -t 00:10:00
 
-# Running job for sequential naive approach
+# Running jobs for sequential naive approach
 srun ./seq_naive 10
 
 srun ./seq_naive 100
 
-srun ./seq_naive //This will print the Chicago Building Heights
+srun ./seq_naive #This will print the Chicago Building Heights
 
 srun ./seq_naive 10000
 

@@ -10,12 +10,12 @@
 #SBATCH --export=ALL
 #SBATCH -t 00:10:00
 
-# Running job for sequential naive approach
+# Running jobs for sequential prefix and suffix approach
 srun ./spas 10
 
 srun ./spas 100
 
-srun ./spas //This will print the Chicago Building Heights
+srun ./spas #This will print the Chicago Building Heights
 
 srun ./spas 10000
 
