@@ -127,6 +127,7 @@ int main(int argc, char *argv[])
         printf("Array too large to print\n");
 
     start = clock();
+    printf("N size: %d\n", n);
     printf("Maximum trapped rainwater: %d units\n", maxWater(arr, n));
     end = clock();
     elapsed = ((double)(end - start)) / CLOCKS_PER_SEC;
