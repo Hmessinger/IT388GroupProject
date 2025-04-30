@@ -19,7 +19,7 @@ srun -n 2 ./mpi_naive 100
 srun -n 2 ./mpi_naive 1000
 srun -n 2 ./mpi_naive 10000
 srun -n 2 ./mpi_naive 100000
-#srun -n 2 ./mpi_naive 1000000
+srun -n 2 ./mpi_naive 1000000
 
 #P=4
 srun -n 4 ./mpi_naive 
@@ -27,7 +27,7 @@ srun -n 4 ./mpi_naive 100
 srun -n 4 ./mpi_naive 1000
 srun -n 4 ./mpi_naive 10000
 srun -n 4 ./mpi_naive 100000
-#srun -n 4 ./mpi_naive 1000000
+srun -n 4 ./mpi_naive 1000000
 
 #P=8
 srun -n 8 ./mpi_naive 
@@ -35,7 +35,7 @@ srun -n 8 ./mpi_naive 100
 srun -n 8 ./mpi_naive 1000
 srun -n 8 ./mpi_naive 10000
 srun -n 8 ./mpi_naive 100000
-#srun -n 8 ./mpi_naive 1000000
+srun -n 8 ./mpi_naive 1000000
 
 #P=10
 srun -n 10 ./mpi_naive 
@@ -43,7 +43,7 @@ srun -n 10 ./mpi_naive 100
 srun -n 10 ./mpi_naive 1000
 srun -n 10 ./mpi_naive 10000
 srun -n 10 ./mpi_naive 100000
-#srun -n 10 ./mpi_naive 1000000
+srun -n 10 ./mpi_naive 1000000
 
 #P=20
 srun -n 20 ./mpi_naive 
@@ -51,4 +51,4 @@ srun -n 20 ./mpi_naive 100
 srun -n 20 ./mpi_naive 1000
 srun -n 20 ./mpi_naive 10000
 srun -n 20 ./mpi_naive 100000
-#srun -n 20 ./mpi_naive 1000000
+srun -n 20 ./mpi_naive 1000000

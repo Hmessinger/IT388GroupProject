@@ -11,11 +11,7 @@
 #SBATCH -t 00:10:00
 
 # Running jobs for sequential two pointer approach
-#srun ./seq_tp 10
-
 srun ./seq_tp 100
-
-#srun ./seq_tp #This will print the Chicago Building Heights
 
 srun ./seq_tp 1000
 
@@ -25,6 +21,4 @@ srun ./seq_tp 100000
 
 srun ./seq_tp 1000000
 
-#srun ./seq_tp 2000000
-
-srun ./seq_tp
+srun ./seq_tp #This will print the Chicago Building Heights

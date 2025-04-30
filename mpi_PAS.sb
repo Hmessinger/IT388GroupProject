@@ -14,36 +14,36 @@
 # module load cpu/0.17.3b gcc/10.2.0 openmpi/4.1.3
 
 #P=2
-#srun -n 2 ./ppas 
-#srun -n 2 ./ppas 100
-#srun -n 2 ./ppas 1000
-#srun -n 2 ./ppas 10000
-#srun -n 2 ./ppas 100000
-#srun -n 2 ./ppas 1000000
+srun -n 2 ./ppas 
+srun -n 2 ./ppas 100
+srun -n 2 ./ppas 1000
+srun -n 2 ./ppas 10000
+srun -n 2 ./ppas 100000
+srun -n 2 ./ppas 1000000
 
 #P=4
-#srun -n 4 ./ppas 
-#srun -n 4 ./ppas 100
-#srun -n 4 ./ppas 1000
-#srun -n 4 ./ppas 10000
-#srun -n 4 ./ppas 100000
-#srun -n 4 ./ppas 1000000
+srun -n 4 ./ppas 
+srun -n 4 ./ppas 100
+srun -n 4 ./ppas 1000
+srun -n 4 ./ppas 10000
+srun -n 4 ./ppas 100000
+srun -n 4 ./ppas 1000000
 
 #P=8
-#srun -n 8 ./ppas 
-#srun -n 8 ./ppas 100
-#srun -n 8 ./ppas 1000
-#srun -n 8 ./ppas 10000
-#srun -n 8 ./ppas 100000
-#srun -n 8 ./ppas 1000000
+srun -n 8 ./ppas 
+srun -n 8 ./ppas 100
+srun -n 8 ./ppas 1000
+srun -n 8 ./ppas 10000
+srun -n 8 ./ppas 100000
+srun -n 8 ./ppas 1000000
 
 #P=10
 srun -n 10 ./ppas 
-#srun -n 10 ./ppas 100
-#srun -n 10 ./ppas 1000
-#srun -n 10 ./ppas 10000
-#srun -n 10 ./ppas 100000
-#srun -n 10 ./ppas 1000000
+srun -n 10 ./ppas 100
+srun -n 10 ./ppas 1000
+srun -n 10 ./ppas 10000
+srun -n 10 ./ppas 100000
+srun -n 10 ./ppas 1000000
 
 #P=20
 srun -n 20 ./ppas 

@@ -11,18 +11,14 @@
 #SBATCH -t 00:10:00
 
 # Running jobs for sequential naive approach
-#srun ./seq_naive 10
-
 srun ./seq_naive 100
 
-#srun ./seq_naive #This will print the Chicago Building Heights
+srun ./seq_naive 1000
 
-#srun ./seq_naive 1000
+srun ./seq_naive 10000
 
-#srun ./seq_naive 10000
+srun ./seq_naive 100000
 
-#srun ./seq_naive 100000
+srun ./seq_naive 1000000
 
-#srun ./seq_naive 1000000
-
-srun ./seq_naive 
+srun ./seq_naive #This will print the Chicago Building Heights
