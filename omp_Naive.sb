@@ -14,33 +14,66 @@
 # module load cpu/0.17.3b gcc/10.2.0 openmpi/4.1.3
 
 # Execute: ./omp_naive <nThreads> <array size>
+
+#nThreads = 2
+srun ./omp_naive 2 100
+srun ./omp_naive 2 1000
+srun ./omp_naive 2 10000
+srun ./omp_naive 2 100000
+#srun ./omp_naive 2 1000000
+srun ./omp_naive 2
+
 # Running jobs for omp naive approach (4 threads)
-srun ./omp_naive 4 10
+#srun ./omp_naive 4 10
 
 srun ./omp_naive 4 100
 
-srun ./omp_naive 4 #This will print the Chicago Building Heights
+#srun ./omp_naive 4 #This will print the Chicago Building Heights
+
+srun ./omp_naive 4 1000
 
 srun ./omp_naive 4 10000
 
 srun ./omp_naive 4 100000
 
-srun ./omp_naive 4 1000000
+#srun ./omp_naive 4 1000000
 
-srun ./omp_naive 4 2000000
+#srun ./omp_naive 4 2000000
 
+srun ./omp_naive 4
+
+#nThreads = 8
+srun ./omp_naive 8 100
+srun ./omp_naive 8 1000
+srun ./omp_naive 8 10000
+srun ./omp_naive 8 100000
+#srun ./omp_naive 8 1000000
+srun ./omp_naive 8
 
 # Running jobs for omp naive approach (10 threads)
-srun ./omp_naive 10 10
+#srun ./omp_naive 10 10
 
 srun ./omp_naive 10 100
 
-srun ./omp_naive 10 #This will print the Chicago Building Heights
+#srun ./omp_naive 10 #This will print the Chicago Building Heights
+
+srun ./omp_naive 10 1000
 
 srun ./omp_naive 10 10000
 
 srun ./omp_naive 10 100000
 
-srun ./omp_naive 10 1000000
+#srun ./omp_naive 10 1000000
 
-srun ./omp_naive 10 2000000
+#srun ./omp_naive 10 2000000
+
+srun ./omp_naive 10
+
+#nThreads = 20
+
+srun ./omp_naive 20 100
+srun ./omp_naive 20 1000
+srun ./omp_naive 20 10000
+srun ./omp_naive 20 100000
+#srun ./omp_naive 20 1000000
+srun ./omp_naive 20

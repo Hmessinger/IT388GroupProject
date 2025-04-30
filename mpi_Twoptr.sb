@@ -2,7 +2,7 @@
 #SBATCH --job-name="mpi_tp"
 #SBATCH --output="mpi_Twoptr.txt"
 #SBATCH --partition=compute
-#SBATCH --nodes=1
+#SBATCH --nodes=3
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=50
 #SBATCH --mem=4G
@@ -16,16 +16,10 @@
 # Execute: mpiexec -n <number of cores> ./mpi_tp <array size>
 # NOTE: You must use 3 processes
 # Running jobs for mpi two pointer approach (3 processes)
-srun -n 3 ./mpi_tp 10
 
+srun -n 3 ./mpi_tp 
 srun -n 3 ./mpi_tp 100
-
-srun -n 3 ./mpi_tp #This will print the Chicago Building Heights
-
+srun -n 3 ./mpi_tp 1000
 srun -n 3 ./mpi_tp 10000
-
 srun -n 3 ./mpi_tp 100000
-
 srun -n 3 ./mpi_tp 1000000
-
-srun -n 3 ./mpi_tp 2000000

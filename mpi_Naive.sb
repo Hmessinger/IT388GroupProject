@@ -2,7 +2,7 @@
 #SBATCH --job-name="mpi_naive"
 #SBATCH --output="mpi_Naive.txt"
 #SBATCH --partition=compute
-#SBATCH --nodes=1
+#SBATCH --nodes=20
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=50
 #SBATCH --mem=4G
@@ -13,34 +13,42 @@
 # Need to load libraries beforehand: 
 # module load cpu/0.17.3b gcc/10.2.0 openmpi/4.1.3
 
-#Execute: mpiexec -n <number of cores> ./mpi_naive <array size>
-# Running jobs for mpi naive approach (4 processes)
-srun -n 4 ./mpi_naive 10
+#P=2
+srun -n 2 ./mpi_naive 
+srun -n 2 ./mpi_naive 100
+srun -n 2 ./mpi_naive 1000
+srun -n 2 ./mpi_naive 10000
+srun -n 2 ./mpi_naive 100000
+#srun -n 2 ./mpi_naive 1000000
 
+#P=4
+srun -n 4 ./mpi_naive 
 srun -n 4 ./mpi_naive 100
-
-srun -n 4  ./mpi_naive #This will print the Chicago Building Heights
-
+srun -n 4 ./mpi_naive 1000
 srun -n 4 ./mpi_naive 10000
-
 srun -n 4 ./mpi_naive 100000
+#srun -n 4 ./mpi_naive 1000000
 
-srun -n 4 ./mpi_naive 1000000
+#P=8
+srun -n 8 ./mpi_naive 
+srun -n 8 ./mpi_naive 100
+srun -n 8 ./mpi_naive 1000
+srun -n 8 ./mpi_naive 10000
+srun -n 8 ./mpi_naive 100000
+#srun -n 8 ./mpi_naive 1000000
 
-srun -n 4 ./mpi_naive 2000000
-
-
-# Running jobs for mpi naive approach (10 processes)
-srun -n 10 ./mpi_naive 10
-
+#P=10
+srun -n 10 ./mpi_naive 
 srun -n 10 ./mpi_naive 100
-
-srun -n 10  ./mpi_naive #This will print the Chicago Building Heights
-
+srun -n 10 ./mpi_naive 1000
 srun -n 10 ./mpi_naive 10000
-
 srun -n 10 ./mpi_naive 100000
+#srun -n 10 ./mpi_naive 1000000
 
-srun -n 10 ./mpi_naive 1000000
-
-srun -n 10 ./mpi_naive 2000000
+#P=20
+srun -n 20 ./mpi_naive 
+srun -n 20 ./mpi_naive 100
+srun -n 20 ./mpi_naive 1000
+srun -n 20 ./mpi_naive 10000
+srun -n 20 ./mpi_naive 100000
+#srun -n 20 ./mpi_naive 1000000
