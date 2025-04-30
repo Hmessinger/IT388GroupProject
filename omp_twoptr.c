@@ -1,5 +1,5 @@
 /** FILE: omp_twoptr.c
- *  Description: Here we are implementing the OMP version of the trapping rainwater problem.
+ *  Description: Here we are implementing the OMP version of the two pointer trapping rainwater problem.
  *  Compile:
  *          gcc -o omp_tp omp_twoptr.c -fopenmp
  *  Execution:
@@ -9,16 +9,6 @@
  * Course: IT 388-Spring 2025
  * Group Project
  */
-
-/*
-OMP approach to the trapping rainwater problem.
-Two Pointer Approach: O(n)
-
-Code credit: Geeks For Geeks
-    https://geeksforgeeks.org/trapping-rain-water/#
-
-This code will be modified into the parallel final code.
-*/
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -9,16 +9,6 @@
  * Group Project
  */
 
-/*
-OMP approach to the trapping rainwater problem.
-Prefix and Suffix approach: O(n)
-
-Code credit: Geeks For Geeks
-    https://geeksforgeeks.org/trapping-rain-water/#
-
-This code will be modified into the parallel final code.
-*/
-
 #include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>

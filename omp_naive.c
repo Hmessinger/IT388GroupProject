@@ -1,19 +1,16 @@
-/*
-OMP only approach to the trapping rainwater problem.
-Naive approach: O(n^2) double loop
-
-Code credit: Geeks For Geeks
-    https://geeksforgeeks.org/trapping-rain-water/#
-
-This code will be modified into the parallel final code.
-This is the first modification of the the sequential code. It uses only OMP to solve the problem.
-
-Load libraries before compiling in Expanse:
+/** FILE: omp_naive.c
+ *  Description: This is the first modification of the the sequential code. It uses only OMP to solve the problem.
+ *          gcc -o omp_naive omp_naive.c -fopenmp
+ *  Execution:
+ *          ./omp_naive <nThreads> <array size>
+ *
+ * Load libraries before compiling in Expanse:
     module load cpu/0.17.3b gcc/10.2.0 openmpi/4.1.3
-
-Compile: gcc -o omp_naive omp_naive.c -fopenmp
-Execute: ./omp_naive <nThreads> <array size>
-*/
+ *
+ * Name: Hogan Messinger, Suhail Tailor, Derek Kmieciak, Angel Hernandez
+ * Course: IT 388-Spring 2025
+ * Group Project
+ */
 
 #include <stdio.h>
 #include <stdlib.h>

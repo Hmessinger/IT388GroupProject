@@ -11,15 +11,15 @@
  */
 
 /*
-Sequential approach to the trapping rainwater problem.
-Two Pointer Approach: O(n)
-
-Code credit: Geeks For Geeks
-    https://geeksforgeeks.org/trapping-rain-water/#
-
-This code will be modified into the parallel final code.
-
-*/
+ * Sequential approach to the trapping rainwater problem.
+ * Two Pointer Approach: O(n)
+ *
+ * Code credit: Geeks For Geeks
+ *    https://geeksforgeeks.org/trapping-rain-water/#
+ *
+ * This code will be modified into the parallel final code.
+ *
+ */
 
 #include <stdio.h>
 #include <stdlib.h>

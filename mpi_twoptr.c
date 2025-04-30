@@ -16,17 +16,6 @@
  * Group Project
  */
 
-/**
- * MPI approach to the trapping rainwater problem.
- * Two Pointer Approach: O(n)
- *
- * Code credit: Geeks For Geeks
- *   https://geeksforgeeks.org/trapping-rain-water/#
- *
- * This sequential code has been modified into a parallel version.
- *
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <mpi.h>

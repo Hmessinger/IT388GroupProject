@@ -11,6 +11,17 @@
  * Group Project
  */
 
+/**
+ * Sequential approach to the trapping rainwater problem.
+ * PAS approach: O(n)
+ *
+ * Code credit: Geeks For Geeks
+ *  https://geeksforgeeks.org/trapping-rain-water/#
+ *
+ * This code will be modified into the parallel final code.
+ *
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
